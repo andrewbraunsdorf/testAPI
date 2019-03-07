@@ -1,0 +1,29 @@
+Restful API
+REST- Representational State Transfer
+Transfer Data around
+Alt- to traditional web page, where webpage doesnt fit needs
+
+Client is browser then Server
+Client sends request to server then response to client
+40 different pages sent
+Dynamically re-render the page
+
+What happens when we reach out to server but dont need html
+Server running 
+Mobile app
+Mobile app needs to store and fetches data but does not render html
+If client is some code wants to access third party features eg google location api
+Finall client browswer, only for first request- store and fetches data but never renders a second HTML page
+RESTful APIs are Stateless Backends
+Client and RESTful Server (API)
+/users - GET POST Delete
+/posts GET POST PATCH
+/products GET
+
+Client can send AJAX request and then get back a response to re-render the DOM
+
+Have server submitting different requests
+
+Response is submitted in JSON data, not limited to JSON but not sending HTML data
+All these urls are sent from javascript or equivalent for a mobile act
+Dont want html want the data
