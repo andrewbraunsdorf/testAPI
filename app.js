@@ -9,7 +9,7 @@ const orderRoutes = require("./api/routes/orders");
 
 mongoose.connect('mongodb+srv://mongodb:' +
 	process.env.MONGO_ATLAS_PW +
-	'@shop-api-snp1z.mongodb.net/test?retryWrites=true', {
+	'@shop-api-snp1z.mongodb.net/test?retryWrites=true', { useNewUrlParser: true }, {
 		useMongoClient: true
 	});
 //mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true');

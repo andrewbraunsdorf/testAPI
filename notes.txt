@@ -44,3 +44,231 @@ Code on Demand (optional)
 Executable Code could be transferred
 (doesnt have to be just data)
 All constraints are theory constraints.
+
+Version2.0
+API- typical to API
+/products route we can target
+GET POST
+/products/ID
+GET PATCH DELETE
+/orders
+GET POST 
+/orders/ID
+GET DELETE
+Add so they are protected and how to log users in 
+
+Install npm
+Npm init
+Installed express 
+npm install --save express
+(--save creates an entry into package file)
+
+Added server.js where you put in all your server using node js
+Allow port to run where you get through environment variable 
+process.env.PORT
+Env accesses node js variables
+Most allow you inject variables
+
+When we create the server via http.createServer() you need to add a listener  that is responsible for returning the response
+Server listen is listening for the port
+
+Add app with method called use
+Use sets up middleware can use normal one with request response and then next, which uses the next middle ware
+Can use res to send response
+Can send status code with json response with a javascript object that can be string afied for you
+
+Add module.exports
+
+Add app in server.js and add app to 
+const server =http.createServer(app);
+Version3.0
+Create product related route
+Require express and store in const
+Setup express router reaching different endpoints
+At products route, url is called resource.  Execute post and 
+Import product routes. 
+Requests are forwarded to this route if it is /products
+Can split files based on a feature basis
+
+Version4.0
+Not really handling errors
+Install nodemon
+npm install --save-dev nodemon
+
+Added "start": "nodemon server.js" to package.json file
+
+Added a log in package
+npm install --save morgan
+Add source to orders via const
+const morgan = require("morgan");
+Tells express to funnel all requests through middleware
+
+Version5.0
+Install body parser
+npm install --save body-parser
+Use this package to parse incoming body of the object, 
+
+CORS error
+CORS?
+Cross-Origin Resource Sharing
+ID behind it is security
+Client and Server coming from same server
+Get HTML which you use AJAX to get some info
+Trying to access resources from server on that server
+However API the client and server are never on the same origin
+Trying to make a request to a resource on the server, it will fail as it is not the same server you are coming from
+API are meant to be consumed from other clients
+We don’t server an application from the data
+Tells the client you can have access.  Send the right headers back
+
+app.use((req, res, next) => {
+res.header('Access-Control-Allow-Origin', '*');	
+});
+
+Second part allows the access ‘*’ would allow everything through
+Prevent CORS errors
+Never encounter CORS errors with POSTMAN but it is only a testing facility
+If you ever thought about restricting access, that other webpages cant access your API
+Added CORS error handling
+
+
+App.
+const express = require('express');
+const app = express();
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
+const productRoutes = require("./api/routes/products");
+const orderRoutes = require("./api/routes/orders");
+
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Origin', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
+	if(req.method === 'OPTIONS') {
+		res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH', 'DELETE, GET');
+		return res.status(200).json({});
+	}
+	next();
+});
+
+//Routes which should handle requests
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
+
+app.use((req, res, next) => {
+	const error = new Error('Not found');
+	error.status = 404;
+	next(error);
+});
+
+app.use((error, req, res, next) => {
+	res.status(error.status || 500);
+	res.json({
+		error: {
+			message: error.message
+		}
+	});
+});
+
+module.exports = app;
+
+Products………………….
+const express = require("express");
+const router = express.Router();
+
+router.get("/", (req, res, next) => {
+	res.status(200).json({
+		message: "Handling GET requests to /products"
+	});
+});
+
+router.post("/", (req, res, next) => {
+	const product = {
+		name: req.body.name,
+		price: req.body.price
+	};
+	res.status(201).json({
+		message: "Handling POST requests to /products",
+		createdProduct: product
+	});
+});
+
+router.get("/:productId", (req, res, next) => {
+	const id = req.params.productId;
+	if (id === "special") {
+		res.status(200).json({
+			message: "You discovered the speical ID",
+			id: id
+		});
+	} else {
+		res.status(200).json({
+			message: "You passed an ID"
+		});
+	}
+});
+
+router.patch("/:productId", (req, res, next) => {
+	res.status(200).json({
+		message: "Updated Product!"
+	});
+});
+
+router.delete("/:productId", (req, res, next) => {
+	res.status(200).json({
+		message: "Deleted Product!"
+	});
+});
+module.exports = router;
+
+
+
+Orders…………………………………..
+const express = require("express");
+const router = express.Router();
+
+// Handle incoming GET requests to /orders
+router.get("/", (req, res, next) => {
+	res.status(200).json({
+		message: 'Orders were fetched'
+	});
+});
+
+router.post("/", (req, res, next) => {
+	const order = {
+		productId: req.body.productId,
+		quantity: req.body.quantity
+	};
+	res.status(201).json({
+		message: 'Order was created',
+		order: order
+	});
+});
+
+router.get("/:orderId", (req, res, next) => {
+	res.status(200).json({
+		message: 'Order details',
+		orderId: req.params.orderId
+	});
+});
+
+router.delete("/:orderId", (req, res, next) => {
+	res.status(200).json({
+		message: 'Order deleted',
+		orderId: req.params.orderId
+	});
+});
+module.exports = router;
+
+Version6.0
+Install mongoose
+npm install --save mongoose
+Use const mongoose = require("mongoose");
+
+Then use mongoose.connect to connect to the database
+mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true');
+Set useMongoClient: true use mongodb client for connecting which is the right way to use mongoose.
