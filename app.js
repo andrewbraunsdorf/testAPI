@@ -7,8 +7,20 @@ const mongoose = require("mongoose");
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
 
-mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true', { useNewUrlParser: true },  {useMongoClient: true});
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true";
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
+
+mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true',{ useNewUrlParser: true }, {useMongoClient: true});
 //mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true');
+// mlabs 
+// mongoose.connect('mongodb://mongodb:mongodb1@ds019990.mlab.com:19990/restapi',  {useMongoClient: true});
+//{useMongoClient: true}
 //{ useNewUrlParser: true },
 
 app.use(morgan('dev'));

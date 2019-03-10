@@ -18,21 +18,30 @@ router.post("/", (req, res, next) => {
 	});
 	product.save().then(result => {
 		console.log(result);
-	}).catch(err => console.log(err));
-	res.status(201).json({
-		message: "Handling POST requests to /products",
-		createdProduct: product
+		res.status(201).json({
+			message: "Handling POST requests to /products",
+			createdProduct: result
+		});
+	}).catch(err => {
+		console.log(err);
+		res.status(500).json({
+			error: err
+		});
 	});
 });
-
 router.get("/:productId", (req, res, next) => {
 	const id = req.params.productId;
 	Product.findById(id).exec().then(doc => {
-		console.log(doc);
+		console.log("From database", doc);
 		res.status(200).json(doc);
+		if (doc) {
+			res.status(200).json(doc);
+		} else {
+			res.status(404).json({message: 'No valid entry found for provided ID'});
+		}
 	}).catch(err => {
 		console.log(err);
-		res.status(500).json({error: err});
+		res.status(500).json({ error: err });
 	});
 });
 
