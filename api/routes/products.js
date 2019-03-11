@@ -64,17 +64,23 @@ router.post("/", (req, res, next) => {
 });
 router.get("/:productId", (req, res, next) => {
 	const id = req.params.productId;
-	Product.findById(id).exec().then(doc => {
+	Product.findById(id).select('name price _id').exec().then(doc => {
 		console.log("From database", doc);
 		res.status(200).json(doc);
 		if (doc) {
-			res.status(200).json(doc);
+			res.status(200).json({
+				product: doc,
+				request: {
+					type: 'GET',
+					url: 'https://andrewbraunsdorf2018-andrewbraunsdorf.c9users.io/products/'
+				}
+			});
 		} else {
 			res.status(404).json({message: 'No valid entry found for provided ID'});
 		}
 	}).catch(err => {
 		console.log(err);
-		res.status(500).json({ error: err });
+		res.status(500).json({ error: err }); 
 	});
 });
 
@@ -86,7 +92,13 @@ router.patch("/:productId", (req, res, next) => {
 	}
 	Product.update({_id: id }, { $set: updateOps}).exec().then(result => {
 		console.log(res);
-		res.status(200).json(result);
+		res.status(200).json({
+			message: 'Porduct updated',
+			request: {
+				type: 'GET',
+				url: 'https://andrewbraunsdorf2018-andrewbraunsdorf.c9users.io/products/' + id
+			}
+		});
 	}).catch(err => {
 		console.log(err);
 		res.status(500).json({
