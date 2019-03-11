@@ -72,6 +72,7 @@ router.patch("/:productId", (req, res, next) => {
 			error: err
 		});
 });
+});
 
 router.delete("/:productId", (req, res, next) => {
 	const id = req.params.productId;
