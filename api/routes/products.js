@@ -44,8 +44,16 @@ router.post("/", (req, res, next) => {
 	product.save().then(result => {
 		console.log(result);
 		res.status(201).json({
-			message: "Handling POST requests to /products",
-			createdProduct: result
+			message: "Created product successfully",
+			createdProduct: {
+				name: result.name,
+				price: result.price,
+				_id: result._id,
+				request: {
+					type: 'GET',
+					url: 'https://andrewbraunsdorf2018-andrewbraunsdorf.c9users.io/products/' + result._id
+				}
+			}
 		});
 	}).catch(err => {
 		console.log(err);
