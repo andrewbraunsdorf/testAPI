@@ -17,6 +17,7 @@ const orderRoutes = require("./api/routes/orders");
 // });
 
 mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true',{ useNewUrlParser: true }, {useMongoClient: true});
+
 //mongoose.connect('mongodb+srv://mongodb:mongodb@shop-api-snp1z.mongodb.net/test?retryWrites=true');
 // mlabs 
 // mongoose.connect('mongodb://mongodb:mongodb1@ds019990.mlab.com:19990/restapi',  {useMongoClient: true});
